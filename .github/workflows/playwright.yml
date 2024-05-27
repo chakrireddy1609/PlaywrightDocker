@@ -20,15 +20,15 @@ jobs:
       uses: docker/setup-buildx-action@v1
 
     - name: Build Docker image
-      run: docker build -t playwright-python .
+      run: docker build -t playwright-python
+
+    - name: Restart Docker container
+      run: docker start playwright-container
 
     - name: Run Playwright tests
       run: |
         REPORT_NAME="report_$(date +'%Y-%m-%d_%H-%M-%S').html"
         docker run --name playwright-container playwright-python sh -c "pytest Tests --html=$REPORT_NAME"
-
-    - name: Restart Docker container
-      run: docker start playwright-container
 
     - name: Copy report from Docker container
       run: |
