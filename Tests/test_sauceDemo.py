@@ -1,9 +1,6 @@
-import re
-from playwright.sync_api import Page
 
-
-def test_example(page: Page) -> None:
-    page.goto("https://www.saucedemo.com/")
+def test_example(setup):
+    page = setup
     page.get_by_placeholder("Username").click()
     page.get_by_placeholder("Username").fill("standard_user")
     page.locator("[data-test=\"password\"]").click()
