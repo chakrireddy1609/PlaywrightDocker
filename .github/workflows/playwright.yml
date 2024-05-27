@@ -23,4 +23,17 @@ jobs:
       run: docker build -t playwright-python .
 
     - name: Run Playwright tests
-      run: docker run playwright-python
+      run: |
+          REPORT_NAME="report_$(date +'%Y-%m-%d_%H-%M-%S').html"
+        docker run playwright-python --html=$REPORT_NAME
+
+    - name: Copy report from Docker container
+      run: |
+          REPORT_NAME=$(docker exec playwright-container sh -c 'ls /app | grep report_')
+          docker cp playwright-container:/app/$REPORT_NAME $REPORT_NAME
+
+    - name: Upload HTML report
+      uses: actions/upload-artifact@v2
+      with:
+        name: html-report
+        path: ${{ steps.report.outputs.REPORT_NAME }}
