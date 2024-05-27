@@ -11,6 +11,9 @@ on:
 jobs:
   SauceDemo:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        browser: [ 'chromium', 'firefox', 'webkit' ]
 
     steps:
     - name: Checkout repository
@@ -25,7 +28,7 @@ jobs:
     - name: Run Playwright tests
       run: |
         REPORT_NAME="report_$(date +'%Y-%m-%d_%H-%M-%S').html"
-        docker run --name playwright-container playwright-python sh -c "pytest Tests --html=$REPORT_NAME"
+        docker run --name playwright-container playwright-python sh -c "pytest Tests --browser ${{ matrix.browser }} --html=$REPORT_NAME"
 
     - name: Restart Docker container
       run: docker start playwright-container
