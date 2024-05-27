@@ -5,4 +5,4 @@ services:
     build: .
     volumes:
       - .:/app
-    command: ["pytest", "Tests/test_sauceDemo.py"]
+    command: ["pytest", "Tests/test_LoginLogout.py", "Tests/test_Sorting.py"]
