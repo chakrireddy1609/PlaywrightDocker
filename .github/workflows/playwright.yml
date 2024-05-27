@@ -25,7 +25,7 @@ jobs:
     - name: Run Playwright tests
       run: |
         REPORT_NAME="report_$(date +'%Y-%m-%d_%H-%M-%S').html"
-        docker run --name playwright-container playwright-python --html=$REPORT_NAME
+        docker run --name playwright-container playwright-python sh -c "pytest tests --html=$REPORT_NAME"
 
     - name: Copy report from Docker container
       run: |
