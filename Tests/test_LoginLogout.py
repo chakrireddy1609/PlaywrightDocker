@@ -1,9 +1,7 @@
-
 from Pages.LoginPage import LoginPage
-import pytest
 
-def test_saucedemo(page):
+
+def test_loginlogout(page):
     lp = LoginPage(page)
     lp.navigate()
     lp.login_logout()
-
