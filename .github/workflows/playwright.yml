@@ -29,8 +29,12 @@ jobs:
 
     - name: Copy report from Docker container
       run: |
-        docker cp playwright-container:/app/report_*.html ${{ github.workspace }}
-        docker rm playwright-container
+        docker exec playwright-container sh -c 'ls /app/report_*.html' > reports.txt
+        while read -r REPORT_NAME; do
+          docker cp playwright-container:$REPORT_NAME ${{ github.workspace }}/
+        done < reports.txt
+        rm reports.txt
+
 
     - name: Upload HTML report
       uses: actions/upload-artifact@v2
