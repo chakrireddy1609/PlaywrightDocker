@@ -27,11 +27,9 @@ jobs:
 
     - name: Run Playwright tests
       run: |
-        for BROWSER in "${{ matrix.browser }}"; do
-          REPORT_NAME="report_${BROWSER}_$(date +'%Y-%m-%d_%H-%M-%S').html"
-          docker run --name playwright-container playwright-python sh -c "pytest Tests --browser $BROWSER ${{ matrix.browser }} --html=$REPORT_NAME"
-          docker cp playwright-container:/app/$REPORT_NAME ${{ github.workspace }}/$REPORT_NAME
-        done
+        REPORT_NAME="report_$(date +'%Y-%m-%d_%H-%M-%S').html"
+        docker run --name playwright-container playwright-python sh -c "pytest Tests --browser ${{ matrix.browser }} --html=$REPORT_NAME"
+
     - name: Restart Docker container
       run: docker start playwright-container
 
