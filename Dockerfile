@@ -21,4 +21,4 @@ RUN playwright install --with-deps
 COPY . /app
 
 # Command to run the tests
-CMD ["pytest", "test_playwright.py"]
+CMD ["pytest", "test_sauceDemo.py"]
