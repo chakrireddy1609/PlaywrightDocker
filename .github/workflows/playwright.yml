@@ -17,10 +17,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      uses: docker/setup-buildx-action@v2
 
     - name: Build Docker image
       run: docker build -t playwright-python .
@@ -29,7 +29,7 @@ jobs:
       run: |
         BROWSER=${{ matrix.browser }}
         REPORT_NAME="report_${BROWSER}_$(date +'%Y-%m-%d_%H-%M-%S').html"
-        docker run --name playwright-container playwright-python sh -c "pytest Tests --browser ${{ matrix.browser }} --html=$REPORT_NAME"
+        docker run --name playwright-container playwright-python sh -c "pytest Tests --browser ${{ matrix.browser }} --html=/app/$REPORT_NAME"
         echo "REPORT_NAME=$REPORT_NAME" >> $GITHUB_ENV
 
     - name: Restart Docker container
@@ -37,15 +37,12 @@ jobs:
 
     - name: Copy report from Docker container
       run: |
-        docker exec playwright-container sh -c 'ls /app/report_*.html' > reports.txt
-        while read -r REPORT_NAME; do
-          docker cp playwright-container:$REPORT_NAME ${{ github.workspace }}/
-        done < reports.txt
-        rm reports.txt
+        docker cp playwright-container:/app/$REPORT_NAME ${{ github.workspace }}/
+
 
 
     - name: Upload HTML report
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: html-report
         path: ${{ env.REPORT_NAME }}
