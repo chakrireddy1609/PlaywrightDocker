@@ -30,6 +30,7 @@ jobs:
         BROWSER=${{ matrix.browser }}
         REPORT_NAME="report_${BROWSER}_$(date +'%Y-%m-%d_%H-%M-%S').html"
         docker run --name playwright-container playwright-python sh -c "pytest Tests --browser ${{ matrix.browser }} --html=$REPORT_NAME"
+        echo "REPORT_NAME=$REPORT_NAME" >> $GITHUB_ENV
 
     - name: Restart Docker container
       run: docker start playwright-container
@@ -47,4 +48,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: html-report
-        path: ${{ github.workspace }}/report_*.html
+        path: ${{ env.REPORT_NAME }}
