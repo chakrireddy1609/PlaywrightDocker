@@ -44,5 +44,5 @@ jobs:
     - name: Upload HTML report
       uses: actions/upload-artifact@v4
       with:
-        name: html-report-${{ matrix.browser }}-$(date +'%Y%m%d%H%M%S')
+        name: html-report_${{ matrix.browser }}_$(date +'%Y%m%d%H%M%S')
         path: ${{ github.workspace }}/report_*.html
