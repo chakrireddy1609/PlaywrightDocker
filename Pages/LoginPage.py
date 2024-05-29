@@ -12,9 +12,19 @@ class LoginPage:
         self.remove = self.page.locator("[data-test=\"remove\"]")
         self.open_menu = self.page.get_by_role("button", name="Open Menu")
         self.logout_button = self.page.locator("[data-test=\"logout-sidebar-link\"]")
+        self.error_msg = self.page.locator("//h3[@data-test='error']")
 
     def navigate(self):
         self.page.goto("https://www.saucedemo.com/")
+
+    def message_invalid_login(self):
+        self.username.click()
+        self.username.fill("standard_user1")
+        self.password.click()
+        self.password.fill("secret_sauce")
+        self.login_button.click()
+        assert self.error_msg.inner_text() == ("Epic sadface: Username and password do not match any user in this "
+                                               "service")
 
     def login_logout(self):
         self.username.click()
