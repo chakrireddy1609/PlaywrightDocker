@@ -27,7 +27,7 @@ class LoginPage:
         assert self.error_msg.inner_text() == ("Epic sadface: Username and password do not match any user in this "
                                                "service")
 
-    def page_title(self):
+    def assert_page_title(self):
         self.username.click()
         self.username.fill("standard_user")
         self.password.click()

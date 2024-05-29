@@ -16,7 +16,7 @@ def test_invalidlogin(page):
 def test_pagetitle(page):
     lp2 = LoginPage(page)
     lp2.navigate()
-    lp2.page_title()
+    lp2.assert_page_title()
 
 
 
